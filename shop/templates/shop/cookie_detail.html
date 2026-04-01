@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ cookie.name }}{% endblock %}
+
+{% block content %}
+<section class="inner-page">
+    <div class="container">
+        <div class="detail-box">
+            <div class="detail-image">
+            </div>
+            <div class="detail-text">
+                <h1>{{ cookie.name }}</h1>
+                <p>Цена: {{ cookie.price }} руб.</p>
+                <p>
+                    Это вкусное домашнее печенье с насыщенным ароматом
+                    и мягкой текстурой. Подходит для уютных чаепитий
+                    и сладких подарков.
+                </p>
+                <a href="{% url 'order' %}" class="btn">Заказать</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

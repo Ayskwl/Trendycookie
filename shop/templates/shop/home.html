@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная | Trendy cookies{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-bg-lines">
+        <img src="{% static 'shop/images/line1.png' %}" alt="" class="hero-line hero-line-1">
+    </div>
+
+    <div class="container hero-inner">
+        <div class="hero-text">
+            <h1>Магия вкуса<br>в каждой крошке</h1>
+
+            <p>
+                Наши рецепты вдыхают жизнь в изысканность ингредиентов:
+                ароматное натуральное масло, свежие сливки, чистый мёд
+                и отборная мука. Мы тщательно отбираем каждый компонент
+                премиального печенья, стремясь подарить вам истинное
+                кулинарное наслаждение.
+            </p>
+
+            <a href="{% url 'order' %}" class="hero-btn">Заказать</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

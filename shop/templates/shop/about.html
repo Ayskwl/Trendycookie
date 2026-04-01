@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}О нас | Trendy cookies{% endblock %}
+
+{% block content %}
+<section class="inner-page">
+    <div class="container">
+        <h1>О нас</h1>
+
+        <div class="about-page-box">
+            <div class="about-page-text">
+                <h2>Печенье, в которое вложена душа</h2>
+                <p>
+                    Мы создаём печенье из качественных ингредиентов,
+                    уделяя внимание каждой детали: вкусу, текстуре,
+                    аромату и оформлению.
+                </p>
+                <p>
+                    Наша цель — дарить уют, радость и сладкие эмоции.
+                    Именно поэтому каждая партия печенья готовится
+                    с заботой и любовью.
+                </p>
+            </div>
+
+            <div class="about-page-image">
+                <img src="{% static 'shop/images/about.png' %}" alt="О нас">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

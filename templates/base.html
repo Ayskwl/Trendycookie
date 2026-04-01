@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Trendy cookies{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'shop/css/style.css' %}">
+</head>
+
+<body class="body">
+
+<header class="header">
+    <div class="page-container header-inner">
+        <a href="{% url 'home' %}" class="logo">Trendycookies</a>
+
+        <nav class="nav">
+            <a href="{% url 'catalog' %}">Каталог</a>
+            <a href="{% url 'about' %}">О нас</a>
+            <a href="{% url 'order' %}">Оформление заказа</a>
+        </nav>
+
+    </div>
+</header>
+
+{% block content %}{% endblock %}
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-logo">Trendy cookies</div>
+        <div class="footer-text">Все права защищены</div>
+    </div>
+</footer>
+
+</body>
+</html>
