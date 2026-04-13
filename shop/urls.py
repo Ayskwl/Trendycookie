@@ -7,8 +7,8 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('order/', views.order, name='order'),
     path('order/success/', views.order_success, name='order_success'),
-
+    path('tag/<slug:tag_slug>/', views.show_tag, name='tag'),
     path('catalog/<slug:cookie_slug>/', views.cookie_detail, name='cookie_detail'),
     path('catalog/category/<int:cat_id>/', views.category, name='category'),
-    path('old-catalog/', views.old_catalog_redirect, name='old_catalog'),
+    
 ]

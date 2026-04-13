@@ -1,25 +1,40 @@
 {% extends 'base.html' %}
-{% load static %}
-
-{% block title %}{{ cookie.name }}{% endblock %}
 
 {% block content %}
-<section class="inner-page">
+  <section class="inner-page">
     <div class="container">
-        <div class="detail-box">
-            <div class="detail-image">
-            </div>
-            <div class="detail-text">
-                <h1>{{ cookie.name }}</h1>
-                <p>Цена: {{ cookie.price }} руб.</p>
-                <p>
-                    Это вкусное домашнее печенье с насыщенным ароматом
-                    и мягкой текстурой. Подходит для уютных чаепитий
-                    и сладких подарков.
-                </p>
-                <a href="{% url 'order' %}" class="btn">Заказать</a>
-            </div>
-        </div>
+      <h1>{{ cookie.name }}</h1>
+
+      <p>
+        <strong>Категория:</strong> {{ cookie.category.name }}
+      </p>
+      <p>
+        <strong>Описание:</strong> {{ cookie.description }}
+      </p>
+      <p>
+        <strong>Цена:</strong> {{ cookie.price }} руб.
+      </p>
+
+      <p>
+        <strong>Теги:</strong>
+      </p>
+      <ul>
+        {% for tag in cookie.tags.all %}
+          <li>
+            <a href="{% url 'tag' tag.slug %}">{{ tag.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <p>
+        <strong>Пищевая ценность:</strong>
+      </p>
+      <ul>
+        <li>Калории: {{ cookie.nutrition.calories }}</li>
+        <li>Белки: {{ cookie.nutrition.proteins }}</li>
+        <li>Жиры: {{ cookie.nutrition.fats }}</li>
+        <li>Углеводы: {{ cookie.nutrition.carbs }}</li>
+      </ul>
     </div>
-</section>
+  </section>
 {% endblock %}

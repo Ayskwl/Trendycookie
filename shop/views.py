@@ -1,7 +1,7 @@
 from django import forms
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Cookie
+from .models import Cookie, Tag
 
 
 class OrderForm(forms.Form):
@@ -110,3 +110,13 @@ def confirm_order(request, code):
 
 def page_not_found(request, exception):
     return render(request, 'shop/404.html', status=404)
+
+
+def show_tag(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    cookies = tag.cookies.filter(status=1)
+
+    return render(request, 'shop/catalog.html', {
+        'cookies': cookies,
+        'page_title': f'Тег: {tag.name}'
+    })

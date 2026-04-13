@@ -25,7 +25,7 @@
                 {% endif %}
 
                 <h3>{{ item.name }}</h3>
-                <p>Вкусное домашнее печенье для уютного чаепития.</p>
+                <p>{{ item.description }}</p>
                 <div class="card-bottom">
                     <span>{{ item.price }} руб.</span>
                     <a href="{% url 'cookie_detail' item.slug %}" class="btn btn-small">Подробнее</a>
