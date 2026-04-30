@@ -1,0 +1,17 @@
+#header {
+    background: #c19ad3;
+}
+
+#branding h1,
+#branding h1 a {
+    color: #fff9bf;
+}
+
+.module h2,
+.module caption {
+    background: #c19ad3;
+}
+
+div.breadcrumbs {
+    background: #b789c9;
+}

@@ -8,3 +8,7 @@ urlpatterns = [
 ]
 
 handler404 = page_not_found
+
+admin.site.site_header = 'Панель администрирования Trendy cookies'
+admin.site.index_title = 'Управление каталогом печенья'
+admin.site.site_title = 'Trendy cookies'

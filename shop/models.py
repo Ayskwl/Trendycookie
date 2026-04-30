@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True)
@@ -7,14 +7,25 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
 
+    def get_absolute_url(self):
+        return reverse('tag', kwargs={'tag_slug': self.slug})
+
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
 
 
 class Cookie(models.Model):
@@ -42,6 +53,10 @@ class Cookie(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = 'Печенье'
+        verbose_name_plural = 'Печенье'
 
 
 class Nutrition(models.Model):
@@ -57,3 +72,7 @@ class Nutrition(models.Model):
 
     def __str__(self):
         return f'Пищевая ценность: {self.cookie.name}'
+
+    class Meta:
+        verbose_name = 'Пищевая ценность'
+        verbose_name_plural = 'Пищевая ценность'
