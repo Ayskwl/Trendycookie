@@ -1,7 +1,10 @@
 from django import forms
+from .forms import AddCookieForm, AddCookieModelForm, UploadFileForm
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Cookie, Tag
+import uuid
+import os
 
 
 class OrderForm(forms.Form):
@@ -119,4 +122,74 @@ def show_tag(request, tag_slug):
     return render(request, 'shop/catalog.html', {
         'cookies': cookies,
         'page_title': f'Тег: {tag.name}'
+    })
+
+
+def add_cookie(request):
+    if request.method == 'POST':
+        form = AddCookieForm(request.POST)
+
+        if form.is_valid():
+            try:
+                cookie = Cookie.objects.create(
+                    name=form.cleaned_data['name'],
+                    slug=form.cleaned_data['slug'],
+                    description=form.cleaned_data['description'],
+                    price=form.cleaned_data['price'],
+                    status=1 if form.cleaned_data['status'] else 0,
+                    category=form.cleaned_data['category']
+                )
+
+                cookie.tags.set(form.cleaned_data['tags'])
+
+                return redirect('catalog')
+            except:
+                form.add_error(None, 'Ошибка добавления товара')
+    else:
+        form = AddCookieForm()
+
+    return render(request, 'shop/add_cookie.html', {
+        'form': form,
+        'title': 'Добавление печенья'
+    })
+
+def add_cookie_model(request):
+    if request.method == 'POST':
+        form = AddCookieModelForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return redirect('catalog')
+    else:
+        form = AddCookieModelForm()
+
+    return render(request, 'shop/add_cookie.html', {
+        'form': form,
+        'title': 'Добавление печенья через ModelForm'
+    })
+
+
+def handle_uploaded_file(f):
+    name, ext = os.path.splitext(f.name)
+    unique_name = f'{name}_{uuid.uuid4().hex}{ext}'
+
+    with open(f'uploads/{unique_name}', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+    return unique_name
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            handle_uploaded_file(form.cleaned_data['file'])
+            return redirect('upload_file')
+    else:
+        form = UploadFileForm()
+
+    return render(request, 'shop/upload_file.html', {
+        'form': form,
+        'title': 'Загрузка файла'
     })

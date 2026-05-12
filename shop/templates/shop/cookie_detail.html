@@ -4,6 +4,9 @@
   <section class="inner-page">
     <div class="container">
       <h1>{{ cookie.name }}</h1>
+      {% if cookie.photo %}
+        <img src="{{ cookie.photo.url }}" alt="{{ cookie.name }}" />
+      {% endif %}
 
       <p>
         <strong>Категория:</strong> {{ cookie.category.name }}

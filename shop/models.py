@@ -51,6 +51,13 @@ class Cookie(models.Model):
         related_name='cookies'
     )
 
+    photo = models.ImageField(
+    upload_to='photos/%Y/%m/%d/',
+    blank=True,
+    null=True,
+    verbose_name='Фото'
+    )
+
     def __str__(self):
         return self.name
     

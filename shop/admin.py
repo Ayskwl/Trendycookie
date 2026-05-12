@@ -1,5 +1,7 @@
 from django.contrib import admin
 from .models import Cookie, Category, Tag, Nutrition
+from django.utils.safestring import mark_safe
+
 
 class PriceFilter(admin.SimpleListFilter):
     title = 'Цена товара'
@@ -29,20 +31,23 @@ class CookieAdmin(admin.ModelAdmin):
         'time_create',
         'brief_description',
         'price_with_currency',
+        'cookie_photo',
     )
     fields = (
-    'name',
-    'slug',
-    'description',
-    'price',
-    'category',
-    'tags',
-    'status',
+        'name',
+        'slug',
+        'photo',
+        'description',
+        'price',
+        'category',
+        'tags',
+        'status',
     )
     list_display_links = ('id', 'name')
     list_editable = ('price', 'status')
     ordering = ('-time_create', 'name')
     list_per_page = 5
+    readonly_fields = ('cookie_photo',)
     actions = ('set_published', 'set_draft')
     search_fields = ('name', 'description', 'category__name')
     list_filter = (PriceFilter, 'status', 'category', 'tags')
@@ -71,6 +76,14 @@ class CookieAdmin(admin.ModelAdmin):
             messages.WARNING
         )
 
+    @admin.display(description='Изображение')
+    def cookie_photo(self, obj):
+        if obj.photo:
+            return mark_safe(
+                f"<img src='{obj.photo.url}' width='60'>"
+            )
+
+        return 'Без фото'
 
     @admin.register(Category)
     class CategoryAdmin(admin.ModelAdmin):

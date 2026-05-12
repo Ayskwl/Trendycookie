@@ -1,43 +1,72 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Каталог | Trendy cookies{% endblock %}
+{% block title %}
+    Каталог | Trendy cookies
+{% endblock %}
 
 {% block content %}
 <section class="inner-page">
     <div class="container">
+
         <h1>Каталог печенья</h1>
 
         <div class="sort-links">
-            <a href="{% url 'catalog' %}?sort=name">Сортировать по названию</a>
-            <a href="{% url 'catalog' %}?sort=price">Сортировать по цене</a>
+            <a href="{% url 'catalog' %}?sort=name">
+                Сортировать по названию
+            </a>
+
+            <a href="{% url 'catalog' %}?sort=price">
+                Сортировать по цене
+            </a>
         </div>
 
         <div class="cards">
-            {% for item in cookies %}
-            <div class="card">
-                {% if item.slug == 'chocolate-cookie' %}
-                    <img src="{% static 'shop/images/cookie2.png' %}" alt="{{ item.name }}">
-                {% elif item.slug == 'oatmeal-cookie' %}
-                    <img src="{% static 'shop/images/cookie3.png' %}" alt="{{ item.name }}">
-                {% else %}
-                    <img src="{% static 'shop/images/cookie1.png' %}" alt="{{ item.name }}">
-                {% endif %}
 
-                <h3>{{ item.name }}</h3>
-                <p>{{ item.description }}</p>
-                <div class="card-tags">
-                    {% for tag in item.tags.all %}
-                        <a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
-                    {% endfor %}
+            {% for item in cookies %}
+
+                <div class="card">
+
+                    {% if item.photo %}
+                        <img src="{{ item.photo.url }}"
+                             alt="{{ item.name }}">
+                    {% endif %}
+
+                    <h3>{{ item.name }}</h3>
+
+                    <p>{{ item.description }}</p>
+
+                    <div class="card-tags">
+
+                        {% for tag in item.tags.all %}
+
+                            <a href="{{ tag.get_absolute_url }}">
+                                {{ tag.name }}
+                            </a>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="card-bottom">
+
+                        <span>{{ item.price }} руб.</span>
+
+                        {% if item.slug %}
+                            <a href="{% url 'cookie_detail' item.slug %}"
+                               class="btn btn-small">
+                                Подробнее
+                            </a>
+                        {% endif %}
+
+                    </div>
+
                 </div>
-                <div class="card-bottom">
-                    <span>{{ item.price }} руб.</span>
-                    <a href="{% url 'cookie_detail' item.slug %}" class="btn btn-small">Подробнее</a>
-                </div>
-            </div>
+
             {% endfor %}
+
         </div>
+
     </div>
 </section>
 {% endblock %}
