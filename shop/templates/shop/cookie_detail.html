@@ -7,7 +7,9 @@
       {% if cookie.photo %}
         <img src="{{ cookie.photo.url }}" alt="{{ cookie.name }}" />
       {% endif %}
-
+      <p>
+        <a href="{% url 'cookie_edit' cookie.slug %}">Редактировать печенье</a>
+      </p>
       <p>
         <strong>Категория:</strong> {{ cookie.category.name }}
       </p>
@@ -38,6 +40,9 @@
         <li>Жиры: {{ cookie.nutrition.fats }}</li>
         <li>Углеводы: {{ cookie.nutrition.carbs }}</li>
       </ul>
+      <p>
+        <a href="{% url 'cookie_delete' cookie.slug %}">Удалить печенье</a>
+      </p>
     </div>
   </section>
 {% endblock %}

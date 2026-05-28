@@ -2,71 +2,73 @@
 {% load static %}
 
 {% block title %}
-    Каталог | Trendy cookies
+  Каталог | Trendy cookies
 {% endblock %}
 
 {% block content %}
-<section class="inner-page">
+  <section class="inner-page">
     <div class="container">
+      <h1>Каталог печенья</h1>
 
-        <h1>Каталог печенья</h1>
+      <div class="sort-links">
+        <a href="{% url 'catalog' %}?sort=name">Сортировать по названию</a>
+        <a href="{% url 'catalog' %}?sort=price">Сортировать по цене</a>
+      </div>
 
-        <div class="sort-links">
-            <a href="{% url 'catalog' %}?sort=name">
-                Сортировать по названию
-            </a>
+      <div class="categories">
+        <h3>Категории</h3>
 
-            <a href="{% url 'catalog' %}?sort=price">
-                Сортировать по цене
-            </a>
-        </div>
+        {% for cat in cats %}
+          <a href="{% url 'category' cat.id %}">{{ cat.name }}</a>
+        {% endfor %}
+      </div>
 
-        <div class="cards">
+      <div class="cards">
+        {% for item in cookies %}
+          <div class="card">
+            {% if item.photo %}
+              <img src="{{ item.photo.url }}" alt="{{ item.name }}" />
+            {% else %}
+              <img src="{% static 'shop/images/cookie1.png' %}" alt="{{ item.name }}" />
+            {% endif %}
 
-            {% for item in cookies %}
+            <h3>{{ item.name }}</h3>
 
-                <div class="card">
+            <p>{{ item.description }}</p>
 
-                    {% if item.photo %}
-                        <img src="{{ item.photo.url }}"
-                             alt="{{ item.name }}">
-                    {% endif %}
+            <div class="card-tags">
+              {% for tag in item.tags.all %}
+                <a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
+              {% endfor %}
+            </div>
 
-                    <h3>{{ item.name }}</h3>
+            <div class="card-bottom">
+              <span>{{ item.price }} руб.</span>
+              <a href="{% url 'cookie_detail' item.slug %}">Подробнее</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
 
-                    <p>{{ item.description }}</p>
+      {% if page_obj.has_other_pages %}
+        <nav class="pagination">
+          {% if page_obj.has_previous %}
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+          {% endif %}
 
-                    <div class="card-tags">
+          {% for p in paginator.page_range %}
+            {% if page_obj.number == p %}
+              <span class="page-link page-current">{{ p }}</span>
+            {% elif p >= page_obj.number|add:'-2' and p <= page_obj.number|add:'2' %}
+              <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+            {% endif %}
+          {% endfor %}
 
-                        {% for tag in item.tags.all %}
-
-                            <a href="{{ tag.get_absolute_url }}">
-                                {{ tag.name }}
-                            </a>
-
-                        {% endfor %}
-
-                    </div>
-
-                    <div class="card-bottom">
-
-                        <span>{{ item.price }} руб.</span>
-
-                        {% if item.slug %}
-                            <a href="{% url 'cookie_detail' item.slug %}"
-                               class="btn btn-small">
-                                Подробнее
-                            </a>
-                        {% endif %}
-
-                    </div>
-
-                </div>
-
-            {% endfor %}
-
-        </div>
-
+          {% if page_obj.has_next %}
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">&gt;</a>
+          {% endif %}
+        </nav>
+      {% endif %}
     </div>
-</section>
+  </section>
 {% endblock %}
